@@ -5,39 +5,46 @@
 {
   description = "Qompass AI Qonfig: A Quality Config Manager";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        python = pkgs.python313;
-        qonfigPkg = python.pkgs.buildPythonApplication {
-          pname = "qonfig";
-          version = "unstable";
-          src = ./.;
-          format = "setuptools";
-          propagatedBuildInputs = with python.pkgs; [ pyyaml ];
-          doCheck = false;
-          installPhase = ''
-            mkdir -p $out/bin
-            cp ${./bin/qonfig} $out/bin/qonfig
-            chmod +x $out/bin/qonfig
-          '';
-        };
+        pythonVersions = [
+          "python311"
+          "python312"
+          "python313"
+          "python314"
+        ];
+        getPython = ver: pkgs.${ver};
+        buildForPython = ver:
+          let
+            python = getPython ver;
+          in
+            python.pkgs.buildPythonApplication {
+              pname = "qonfig";
+              version = "1.0.0";
+              src = ./.;
+              format = "pyproject";
+              propagatedBuildInputs = with python.pkgs; [ pyyaml meson  ];
+            };
+        pythonPackages = builtins.listToAttrs (
+          builtins.map
+            (ver: { name = ver; value = buildForPython ver; })
+            pythonVersions
+        );
+        defaultPython = "python313";
       in
       {
-        packages.default = qonfigPkg;
-        apps.default = flake-utils.lib.mkApp {
-          drv = qonfigPkg;
-          exePath = "/bin/qonfig";
-        };
+        packages = pythonPackages // { default = pythonPackages.${defaultPython}; };
         devShells.default = pkgs.mkShell {
-          buildInputs = [
-            python
-            (python.withPackages (ps: with ps; [ pyyaml ]))
-          ];
+          buildInputs = [ pythonPackages.${defaultPython} ];
         };
-      });
+        apps.default = flake-utils.lib.mkApp {
+          drv = pythonPackages.${defaultPython};
+        };
+      }
+    );
 }

@@ -3,7 +3,7 @@
 # Copyright (C) 2025 Qompass AI, All rights reserved
 ####################################################
 set -e
-USER_CONFIG="install.conf.yaml"
+USER_CONFIG="qonfig.yaml"
 QONFIG_DIR="qonfig"
 QONFIG_BIN="bin/qonfig"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

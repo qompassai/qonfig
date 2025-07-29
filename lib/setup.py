@@ -1,4 +1,7 @@
 # /qompassai/qonfig/lib/pyyaml/setup.py
+# Qompass AI Qonfig Python Setup
+# Copyright (C) 2025 Qompass AI, All rights reserved
+####################################################
 NAME = "PyYAML"
 VERSION = "3.13"
 DESCRIPTION = "YAML parser and emitter for Python"

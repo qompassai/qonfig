@@ -175,7 +175,7 @@ while [ $# -ne 0 ]; do
 	esac
 	shift
 done
-paths=('~/.profile'
+paths=("${HOME}/.profile"
 	'~/.bash_profile'
 	'~/.bashrc'
 	'~/.bash_logout'
@@ -225,7 +225,7 @@ else
 	echoerr darkcyan "${prefix} exists and may have another purpose than ours."
 fi
 while true; do
-	read -p "Where do you want your dotfiles repository to be? ($prefix) " answer
+	read -r -p "Where do you want your dotfiles repository to be? ($prefix) " answer
 	if [ -z "$answer" ]; then
 		break
 	else
@@ -351,7 +351,7 @@ for item in ${linksection[*]}; do
 	dotlink="$dotlink$new_entry"
 done
 export installconfyaml="$dotclean$newline$newline$dotlink$newline$newline$dotshell"
-appendshell echoconfig "$installconfyaml" 'install.conf.yaml'
+appendshell echoconfig "$qonfigyaml" 'qonfig.yaml'
 getgitinfo=0
 gitinfoglobal=0
 if (($installerrun)); then

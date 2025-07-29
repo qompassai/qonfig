@@ -4,10 +4,11 @@
 #####################################################
 
 [build-system]
-build-backend = 'mesonpy'
-requires = ['meson-python', 'setuptools<81']
+requires = ["setuptools<81"]
+build-backend = "maturin"
 
 [project]
+name = "qonfig"
 authors = [{ name = "Matt A. Porter", email = "map@qompass.ai" }]
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -24,13 +25,13 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Medical Science Apps.",
   "Typing :: Typed",
 ]
-dependencies = []
+dependencies = ['pyyaml']
 description = "Quantum AI models for healthcare and education"
 dynamic = ["version"]
 keywords = ["ai", "education", "healthcare", "machine-learning", "quantum"]
-license = "AGPL-3.0 AND QCDA-1.0"
+license = "AGPL-3.0 AND LicenseRef-QCDA-1.0"
 license-files = ["LICENSE-AGPL", "LICENSE-QCDA"]
-name = "qai"
+
 readme = "README.md"
 requires-python = ">=3.11"
 
@@ -43,6 +44,9 @@ test = [
   "pytest-cov>=5.0.0",
   "pytest-timeout>=2.3.0",
 ]
+
+[project.scripts]
+qonfig = "qonfig.cli:main"
 
 [tool.bandit]
 exclude_dirs = ["docs", "tests"]
@@ -106,32 +110,12 @@ omit = [
   "*/build/*",
   "*/dist/*",
   "*/__pycache__/*",
-  "*.egg-info/*",
   "*/numpy-*/tmp_install/*",
   "*/python-numpy-mkl/*",
   "*/tmp_install/*",
   "shibokensupport/*",
   "signature_bootstrap.py",
 ]
-
-[tool.isort]
-ensure_newline_before_comments = true
-force_grid_wrap = 0
-include_trailing_comma = true
-known_first_party = ["qai"]
-known_third_party = [
-  "cirq",
-  "numpy",
-  "pandas",
-  "pennylane",
-  "qiskit",
-  "sklearn",
-  "torch",
-]
-line_length = 120
-multi_line_output = 3
-profile = "black"
-use_parentheses = true
 
 [tool.mypy]
 check_untyped_defs = true
@@ -187,7 +171,6 @@ markers = [
 ]
 minversion = "8.0"
 norecursedirs = [
-  "*.egg",
   ".git",
   ".tox",
   ".venv",
@@ -206,7 +189,7 @@ xfail_strict = false
 
 [tool.ruff]
 exclude = [
-  ".bzr", ".direnv", ".eggs", ".git", ".git-rewrite", ".hg",
+  ".bzr", ".direnv", ".git", ".git-rewrite", ".hg",
   ".ipynb_checkpoints", ".mypy_cache", ".nox", ".pants.d",
   ".pyenv", ".pytest_cache", ".pytype", ".ruff_cache", ".svn",
   ".tox", ".venv", ".vscode", "__pypackages__", "_build",
@@ -323,9 +306,9 @@ index-strategy = "unsafe-best-match"
 keyring-provider = "subprocess"
 no-extra = ["dev", "docs"]
 prerelease = "allow"
-#python = "3.13"
+python = "3.13"
 python-platform = "x86_64-unknown-linux-gnu"
-#python-version = "3.13"
+python-version = "3.13"
 resolution = "highest"
 upgrade = true
 

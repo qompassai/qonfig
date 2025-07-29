@@ -1,5 +1,5 @@
-# qompassai/qonfig/install.conf.yaml
-# Qompass AI Qonfig Installer
+# qompassai/qonfig/qonfig.yaml
+# Qompass AI Qonfig YAML
 # Copyright (C) 2025 Qompass AI, All rights reserved
 ####################################################
 - defaults:

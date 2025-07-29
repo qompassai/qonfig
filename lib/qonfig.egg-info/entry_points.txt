@@ -1,0 +1,2 @@
+[console_scripts]
+qonfig = qonfig.__main__:main

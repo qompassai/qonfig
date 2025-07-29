@@ -37,7 +37,7 @@ echo "qonfig = [git]https://github.com/qompassai/qonfig" > .hgsub
 hg add .hgsub
 git clone https://github.com/qompassai/qonfig
 cp qonfig/tools/hg-subrepo/install .
-touch install.conf.yaml
+touch qonfig.yaml
 ```
 
 To get started, you just need to fill in the `qonfig.yaml` and Qonfig
@@ -47,7 +47,7 @@ documentation](#configuration) for the accepted parameters.
 
 Note: The `install` script is merely a shim that checks out the appropriate
 version of Qonfig and calls the full Qonfig installer. By default, the script
-assumes that the configuration is located in `install.conf.yaml` the Qonfig
+assumes that the configuration is located in `qonfig.yaml` the Qonfig
 submodule is located in `qonfig`. You can change either of these parameters by
 editing the variables in the `install` script appropriately.
 
@@ -83,7 +83,7 @@ the Qonfig directory.
   - [git submodule update --init --recursive, Installing submodules]
 ```
 
-`install.conf.json`
+`qonfig.json`
 
 ```json
 [
