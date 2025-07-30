@@ -14,7 +14,6 @@
     ~/.bashrc_user: bashrc
     ~/.zprofile:
     ~/.zshrc_user: zshrc
-    ~/.config/starship.toml: starship.toml
     ~/.gitconfig:
     ~/.gitconfig_work:
     ~/.gitignore_global:
@@ -27,26 +26,10 @@
     ~/.config/kitty/kitty.conf:
       force: true
     ~/.config/alacritty/alacritty.toml:
-    ~/.tmux.conf:
+    ~/.config/tmux/tmux.conf:
     ~/.config/sesh/sesh.toml: sesh.toml
-    ~/.config/aerospace/aerospace.toml:
-      path: aerospace.toml
-      if: '[ "$(uname -s)" = "Darwin" ]'
-    ~/.config/yabai/yabairc:
-      path: yabairc
-      if: '[ "$(uname -s)" = "Darwin" ]'
-    ~/.config/skhd/skhdrc:
-      path: skhdrc
-      if: '[ "$(uname -s)" = "Darwin" ]'
     ~/.config/diver:
       path: Diver
-      force: true
-    ~/.config/neovide/config.toml: neovide.toml
-    ~/.config/zed/settings.json:
-      path: zed.jsonc
-      force: true
-    ~/.cursor/mcp.json:
-      path: mcpservers.json5
       force: true
 - shell:
     - description: sync qonfig

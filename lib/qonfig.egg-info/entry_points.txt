@@ -1,2 +1,2 @@
 [console_scripts]
-qonfig = qonfig.__main__:main
+qonfig = qonfig.cli:main

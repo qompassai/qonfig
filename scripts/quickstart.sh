@@ -38,7 +38,6 @@ echoerrcolor() {
 		darkmagenta)
 			str="\e[1;35m"
 			;;
-
 		esac
 		echo -ne $str >&2
 	fi
@@ -48,7 +47,6 @@ echoerrnocolor() {
 		echo -ne "\e[0m" >&2
 	fi
 }
-
 echoerr() {
 	if [ $# -gt 1 ]; then
 		color=$1
@@ -60,7 +58,6 @@ echoerr() {
 		echoerrnocolor
 	fi
 }
-
 printferr() { printf "$@" >&2; }
 $(which git >&/dev/null)
 if [ $? -eq 1 ]; then
@@ -118,7 +115,6 @@ appendshell() {
 	gitinitialcommit)
 		add='git add -A; git commit -m "Initial commit";'
 		;;
-
 	esac
 	setupshell=$setupshell' '$add
 }
@@ -175,37 +171,39 @@ while [ $# -ne 0 ]; do
 	esac
 	shift
 done
-paths=("${HOME}/.profile"
-	'~/.bash_profile'
-	'~/.bashrc'
-	'~/.bash_logout'
-	'~/.bash_aliases'
-	'~/.conkyrc'
-	'~/.gitconfig'
-	'~/.ssh/config'
-	'~/.tmux.conf'
-	'~/.vimrc'
-	'~/.vim/vimrc'
-	'~/.zprofile'
-	'~/.zshenv'
-	'~/.zshrc'
-	'~/bin'
-	'~/.Xmodmap'
-	'~/.Xresources'
-	'~/.Xdefaults'
-	'~/.vimperatorrc'
-	'~/.xinitrc'
-	'~/.i3'
-	"'$HOME'/.i3status.conf"
-	"'$HOME'/.config/awesome"
-	"'$HOME'/.config/i3"
-	'~/.config/pianobar'
-	'~/.config/vimprobable'
-	'~/.config/redshift'
-	'~/.config/openbox'
-	'~/.config/obmenu-generator'
-	'~/.config/dmenu'
-	'~/.config/tint2')
+paths=(
+	"$HOME/.Xdefaults"
+	"$HOME/.Xmodmap"
+	"$HOME/.Xresources"
+	"$HOME/.bash_aliases"
+	"$HOME/.bash_logout"
+	"$HOME/.bash_profile"
+	"$HOME/.bashrc"
+	"$HOME/.conkyrc"
+	"$HOME/.gitconfig"
+	"$HOME/.i3"
+	"$HOME/.i3status.conf"
+	"$HOME/.profile"
+	"$HOME/.ssh/config"
+	"$HOME/.tmux.conf"
+	"$HOME/.vimperatorrc"
+	"$HOME/.vimrc"
+	"$HOME/.vim/vimrc"
+	"$HOME/.xinitrc"
+	"$HOME/bin"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/awesome"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/dmenu"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/i3"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/obmenu-generator"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/openbox"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/pianobar"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/redshift"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/tint2"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/vimprobable"
+	"$HOME/.zprofile"
+	"$HOME/.zshenv"
+	"$HOME/.zshrc"
+)
 setupshell=''
 dotclean=''
 dotlink=''
@@ -219,7 +217,7 @@ echoerr
 appendshell start
 prefix="{$HOME}/.dotfiles"
 prefixfull="${prefix/\~/${HOME}}"
-if ! [ -d $prefixfull ]; then
+if ! [ -d "$prefixfull" ]; then
 	echoerr darkcyan "${prefix} is not in use."
 else
 	echoerr darkcyan "${prefix} exists and may have another purpose than ours."
@@ -234,7 +232,7 @@ while true; do
 		echoerr
 	fi
 done
-appendshell mkprefix $prefix
+appendshell mkprefix "$prefix"
 appendshell gitinit
 while true; do
 	read -p "Shall we add Qonfig as a submodule (default)? (Y/n) " answer
@@ -333,7 +331,7 @@ for item in ${linksection[*]}; do
 	else
 		entryisdir='false'
 	fi
-	if (($verboseconf)); then
+	if (("$verboseconf")); then
 		new_entry=$newline$hspace$item':'
 		new_entry=$new_entry$newline$hspace$hspace'path: '$itempath
 		new_entry=$new_entry$newline$hspace$hspace'create: '$entryisdir
@@ -350,11 +348,11 @@ for item in ${linksection[*]}; do
 	appendshell mv $item $itempath
 	dotlink="$dotlink$new_entry"
 done
-export installconfyaml="$dotclean$newline$newline$dotlink$newline$newline$dotshell"
+export qonfigyaml="$dotclean$newline$newline$dotlink$newline$newline$dotshell"
 appendshell echoconfig "$qonfigyaml" 'qonfig.yaml'
 getgitinfo=0
 gitinfoglobal=0
-if (($installerrun)); then
+if (("$installerrun")); then
 	$(git config user.name >&/dev/null && git config user.email >&/dev/null)
 	if [ $? -ne 0 ]; then
 		echoerr darkred "Please note you do not have a name or email set for git."
@@ -403,16 +401,16 @@ if (($installerrun)); then
 		done
 	fi
 fi
-if (($getgitinfo)); then
+if (("$getgitinfo")); then
 	$(git config user.name >&/dev/null)
 	if [ $? -ne 0 ]; then
-		gitname="Donald Knuth"
+		gitname="FirstName LastName"
 	else
 		gitname="$(git config user.name)"
 	fi
 	$(git config user.email >&/dev/null)
 	if [ $? -ne 0 ]; then
-		gitemail="Don.Knuth@example.com"
+		gitemail="FirstName.LastName@example.com"
 	else
 		gitemail="$(git config user.email)"
 	fi
@@ -479,7 +477,6 @@ echoerr magenta "The below are the actions that will be taken to setup Qonfig."
 if (($testmode)); then
 	echoerr darkmagenta "Just kidding. They won't be."
 fi
-
 if (($preview)); then
 	printferr "\n${setupshell//; /;\\n}\n\n" # place newline after each command for printing
 	warningmessage='If you do not see a problem with the above commands, press enter. '

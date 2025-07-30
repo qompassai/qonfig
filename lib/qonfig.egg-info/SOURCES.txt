@@ -1,6 +1,7 @@
 LICENSE-AGPL
 LICENSE-QCDA
 README.md
+pyproject.toml
 setup.py
 lib/qonfig.egg-info/PKG-INFO
 lib/qonfig.egg-info/SOURCES.txt

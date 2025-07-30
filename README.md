@@ -1,15 +1,13 @@
 <!------------ /qompassai/qonfig/README.md---------------->
-
 <!------------------- Qompass AI Qonfig ------------------>
-
 <!-- Copyright (C) 2025 Qompass AI, All rights reserved -->
-
 <!-------------------------------------------------------->
 
 <h2> Qompass AI Qonfig </h3>
 
   <h3> Qompass AI Qonfig: A Quality Dotfile Manager </h3>
 
+<p align="center">
 ![Repository Views](https://komarev.com/ghpvc/?username=qompassai-qonfig)
 ![GitHub all releases](https://img.shields.io/github/downloads/qompassai/qonfig/total?style=flat-square)
 
@@ -50,16 +48,17 @@
               <strong>📄 We advise you read the script BEFORE running it 😉</strong>
             </summary>
             <pre style="background: #fff; padding: 15px; border-radius: 5px; border: 1px solid #ddd; overflow-x: auto;">
-        #!/usr/bin/env bashrc
-        # /qompassai/qonfig/scripts/quickstart.show
-        # Qompass AI Qonfig quickstart
-        # Copyright (C) 2025 Qompass AI, All rights reserved
-        ####################################################
-        set -Eeuo pipefail
-        INSTALL_DIR="${HOME}/.local/bin"
-        QONFIG_SCRIPT="bin/qonfig"
-        SCRIPT_NAME="qonfig"
-        USE_SYMLINK=falseechoerrcolor() {
+#!/usr/bin/env bash
+# /qompassai/qonfig/scripts/quickstart.sh
+# Qompass AI Qonfig Quickstart
+# Copyright (C) 2025 Qompass AI, All rights reserved
+####################################################
+set -Eeuo pipefail
+INSTALL_DIR="${HOME}/.local/bin"
+QONFIG_SCRIPT="bin/qonfig"
+SCRIPT_NAME="qonfig"
+USE_SYMLINK=false
+echoerrcolor() {
 	if (($colors)); then
 		case $1 in
 		none)
@@ -89,179 +88,172 @@
 		darkmagenta)
 			str="\e[1;35m"
 			;;
-```
-	esac
-	echo -ne $str >&2
-fi
-```
-
+		esac
+		echo -ne $str >&2
+	fi
 }
 echoerrnocolor() {
-if (($colors)); then
-echo -ne "\e\[0m" >&2
-fi
+	if (($colors)); then
+		echo -ne "\e[0m" >&2
+	fi
 }
-
 echoerr() {
-if \[ $# -gt 1 ]; then
-color=$1
-shift
-echoerrcolor $color
-fi
-echo "$@" >&2
-if \[ $color ]; then
-echoerrnocolor
-fi
+	if [ $# -gt 1 ]; then
+		color=$1
+		shift
+		echoerrcolor $color
+	fi
+	echo "$@" >&2
+	if [ $color ]; then
+		echoerrnocolor
+	fi
 }
-
 printferr() { printf "$@" >&2; }
 $(which git >&/dev/null)
-if \[ $? -eq 1 ]; then
-echoerr red "Git not found! Confirm it is indeed installed and reachable."
-exit
+if [ $? -eq 1 ]; then
+	echoerr red "Git not found! Confirm it is indeed installed and reachable."
+	exit
 fi
 appendshell() {
-case "$1" in
-start)
-add='echo "Setting up Qonfig. Please do not ^C." >&2;'
-;;
-mkprefix)
-add="mkdir -p $2; cd $2;"
-;;
-gitinit)
-add='git init;'
-;;
-gitaddsub)
-add='git submodule add https://github.com/qompassai/qonfig;'
-;;
-gitignoredirty)
-add='git config -f .gitmodules submodule.qonfig.ignore dirty;'
-;;
-gitinstallinstall)
-add='cp qonfig/tools/git-submodule/install .;'
-;;
-ensureparentdirs)
-add="mkdir -p $2; rmdir $2;"
-;;
-mv)
-add="mv $2 $3;"
-;;
-echoconfig)
-add='echo -e "'$2'" >> '$3';'
-;;
-runinstaller)
-add='./install;'
-;;
-gitsetname)
-if (($3)); then
-global=' --global '
-else
-global=' '
-fi
-add='git config'$global'user.name "'$2'";'
-;;
-gitsetemail)
-if (($3)); then
-global=' --global '
-else
-global=' '
-fi
-add='git config'$global'user.email "'$2'";'
-;;
-gitinitialcommit)
-add='git add -A; git commit -m "Initial commit";'
-;;
-
-```
-esac
-setupshell=$setupshell' '$add
-```
-
+	case "$1" in
+	start)
+		add='echo "Setting up Qonfig. Please do not ^C." >&2;'
+		;;
+	mkprefix)
+		add="mkdir -p $2; cd $2;"
+		;;
+	gitinit)
+		add='git init;'
+		;;
+	gitaddsub)
+		add='git submodule add https://github.com/qompassai/qonfig;'
+		;;
+	gitignoredirty)
+		add='git config -f .gitmodules submodule.qonfig.ignore dirty;'
+		;;
+	gitinstallinstall)
+		add='cp qonfig/tools/git-submodule/install .;'
+		;;
+	ensureparentdirs)
+		add="mkdir -p $2; rmdir $2;"
+		;;
+	mv)
+		add="mv $2 $3;"
+		;;
+	echoconfig)
+		add='echo -e "'$2'" >> '$3';'
+		;;
+	runinstaller)
+		add='./install;'
+		;;
+	gitsetname)
+		if (($3)); then
+			global=' --global '
+		else
+			global=' '
+		fi
+		add='git config'$global'user.name "'$2'";'
+		;;
+	gitsetemail)
+		if (($3)); then
+			global=' --global '
+		else
+			global=' '
+		fi
+		add='git config'$global'user.email "'$2'";'
+		;;
+	gitinitialcommit)
+		add='git add -A; git commit -m "Initial commit";'
+		;;
+	esac
+	setupshell=$setupshell' '$add
 }
 testmode=0
 verboseconf=0
 dumpconf=0
 preview=1
 colors=0
-while \[ $# -ne 0 ]; do
-case "$1" in
-test)
-testmode=1
-echoerr darkcyan "Test mode enabled."
-;;
-no-test)
-testmode=0
-echoerr darkcyan "Test mode disabled."
-;;
-verbose-config)
-verboseconf=1
-echoerr darkcyan "Verbose configuration file active."
-;;
-no-verbose-config)
-verboseconf=0
-echoerr darkcyan "Concise configuration file active."
-;;
-dump-config)
-dumpconf=1
-echoerr darkcyan "Will dump config to stdout."
-;;
-no-dump-config)
-dumpconf=0
-echoerr darkcyan "Will not dump config to stdout."
-;;
-preview)
-preview=1
-echoerr darkcyan "Will show commands to be executed."
-;;
-no-preview)
-preview=0
-echoerr darkcyan "Will not show commands to be executed."
-;;
-colors)
-colors=1
-echoerr darkcyan "Will print with colors."
-;;
-no-colors)
-colors=0
-echoerr darkcyan "No color."
-;;
-*)
-echoerr red "Unfamiliar configuration option"
-;;
-esac
-shift
+while [ $# -ne 0 ]; do
+	case "$1" in
+	test)
+		testmode=1
+		echoerr darkcyan "Test mode enabled."
+		;;
+	no-test)
+		testmode=0
+		echoerr darkcyan "Test mode disabled."
+		;;
+	verbose-config)
+		verboseconf=1
+		echoerr darkcyan "Verbose configuration file active."
+		;;
+	no-verbose-config)
+		verboseconf=0
+		echoerr darkcyan "Concise configuration file active."
+		;;
+	dump-config)
+		dumpconf=1
+		echoerr darkcyan "Will dump config to stdout."
+		;;
+	no-dump-config)
+		dumpconf=0
+		echoerr darkcyan "Will not dump config to stdout."
+		;;
+	preview)
+		preview=1
+		echoerr darkcyan "Will show commands to be executed."
+		;;
+	no-preview)
+		preview=0
+		echoerr darkcyan "Will not show commands to be executed."
+		;;
+	colors)
+		colors=1
+		echoerr darkcyan "Will print with colors."
+		;;
+	no-colors)
+		colors=0
+		echoerr darkcyan "No color."
+		;;
+	*)
+		echoerr red "Unfamiliar configuration option"
+		;;
+	esac
+	shift
 done
-paths=('~/.profile'
-'~/.bash\_profile'
-'~/.bashrc'
-'~/.bash\_logout'
-'~/.bash\_aliases'
-'~/.conkyrc'
-'~/.gitconfig'
-'~/.ssh/config'
-'~/.tmux.conf'
-'~/.vimrc'
-'~/.vim/vimrc'
-'~/.zprofile'
-'~/.zshenv'
-'~/.zshrc'
-"'{$HOME}'/bin'
-'~/.Xmodmap'
-'~/.Xresources'
-'~/.Xdefaults'
-'~/.vimperatorrc'
-'~/.xinitrc'
-'~/.i3'
-"'$HOME'/.i3status.conf"
-"'$HOME'/.config/awesome"
-"'$HOME'/.config/i3"
-'~/.config/pianobar'
-'~/.config/vimprobable'
-'~/.config/redshift'
-'~/.config/openbox'
-'~/.config/obmenu-generator'
-'~/.config/dmenu'
-'~/.config/tint2')
+paths=(
+	"$HOME/.Xdefaults"
+	"$HOME/.Xmodmap"
+	"$HOME/.Xresources"
+	"$HOME/.bash_aliases"
+	"$HOME/.bash_logout"
+	"$HOME/.bash_profile"
+	"$HOME/.bashrc"
+	"$HOME/.conkyrc"
+	"$HOME/.gitconfig"
+	"$HOME/.i3"
+	"$HOME/.i3status.conf"
+	"$HOME/.profile"
+	"$HOME/.ssh/config"
+	"$HOME/.tmux.conf"
+	"$HOME/.vimperatorrc"
+	"$HOME/.vimrc"
+	"$HOME/.vim/vimrc"
+	"$HOME/.xinitrc"
+	"$HOME/bin"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/awesome"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/dmenu"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/i3"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/obmenu-generator"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/openbox"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/pianobar"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/redshift"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/tint2"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/vimprobable"
+	"$HOME/.zprofile"
+	"$HOME/.zshenv"
+	"$HOME/.zshrc"
+)
 setupshell=''
 dotclean=''
 dotlink=''
@@ -274,312 +266,311 @@ echoerr blue "At any time, press ^C to quit. No changes will be made until you c
 echoerr
 appendshell start
 prefix="{$HOME}/.dotfiles"
-prefixfull="${prefix/~/${HOME}}"
-if ! \[ -d $prefixfull ]; then
-echoerr darkcyan "${prefix} is not in use."
+prefixfull="${prefix/\~/${HOME}}"
+if ! [ -d "$prefixfull" ]; then
+	echoerr darkcyan "${prefix} is not in use."
 else
-echoerr darkcyan "${prefix} exists and may have another purpose than ours."
+	echoerr darkcyan "${prefix} exists and may have another purpose than ours."
 fi
 while true; do
-read -p "Where do you want your dotfiles repository to be? ($prefix) " answer
-if \[ -z "$answer" ]; then
-break
-else
-echoerr red "FEATURE NOT YET SUPPORTED."
-echoerr red "Sorry for misleading you."
-echoerr
-fi
+	read -r -p "Where do you want your dotfiles repository to be? ($prefix) " answer
+	if [ -z "$answer" ]; then
+		break
+	else
+		echoerr red "FEATURE NOT YET SUPPORTED."
+		echoerr red "Sorry for misleading you."
+		echoerr
+	fi
 done
-appendshell mkprefix $prefix
+appendshell mkprefix "$prefix"
 appendshell gitinit
 while true; do
-read -p "Shall we add Qonfig as a submodule (default)? (Y/n) " answer
-if \[ -z "$answer" ]; then
-answer='y'
-fi
-case "$answer" in
-Y* | y\*)
-echoerr green "Will do."
-appendshell gitaddsub
-appendshell gitignoredirty
-appendshell gitinstallinstall
-break
-;;
-N\* | n\*)
-echoerr darkgreen "Okay, I shall not. You will need to manually set up your install script."
-installerrun=0
-break
-;;
-*)
-echoerr red "Answer not understood: ${answer}"
-;;
-esac
+	read -p "Shall we add Qonfig as a submodule (default)? (Y/n) " answer
+	if [ -z "$answer" ]; then
+		answer='y'
+	fi
+	case "$answer" in
+	Y* | y*)
+		echoerr green "Will do."
+		appendshell gitaddsub
+		appendshell gitignoredirty
+		appendshell gitinstallinstall
+		break
+		;;
+	N* | n*)
+		echoerr darkgreen "Okay, I shall not. You will need to manually set up your install script."
+		installerrun=0
+		break
+		;;
+	*)
+		echoerr red "Answer not understood: ${answer}"
+		;;
+	esac
 done
 while true; do
-read -p "Do you want Qonfig to clean ~/ of broken links added by Qonfig (recommended) (Y/n) " answer
-if \[ -z "$answer" ]; then
-answer='y'
-fi
-case "$answer" in
-Y* | y\*)
-echoerr green "I will ask Qonfig to clean."
-dotclean="- clean: \['~']"
-break
-;;
-N\* | n\*)
-echoerr darkgreen "Not asking Qonfig to clean."
-break
-;;
-*)
-echoerr red "Only Y/y/N/n are accepted as answers, please try again: ${answer}"
-;;
-esac
+	read -p "Do you want Qonfig to clean ~/ of broken links added by Qonfig (recommended) (Y/n) " answer
+	if [ -z "$answer" ]; then
+		answer='y'
+	fi
+	case "$answer" in
+	Y* | y*)
+		echoerr green "I will ask Qonfig to clean."
+		dotclean="- clean: ['~']"
+		break
+		;;
+	N* | n*)
+		echoerr darkgreen "Not asking Qonfig to clean."
+		break
+		;;
+	*)
+		echoerr red "Only Y/y/N/n are accepted as answers, please try again: ${answer}"
+		;;
+	esac
 done
 declare -a linksection
 declare -i i
-for item in ${paths\[*]}; do
-fullname="${item/~/$HOME}"
-if \[ -h $fullname ]; then
-continue
-fi
-if \[ -f $fullname ] || \[ -d $fullname ]; then
-while true; do
-read -p "I found ${item}, do you want to Qonfig it? (Y/n) " answer
-if \[ -z "$answer" ]; then
-answer='y'
-fi
-case "$answer" in
-Y\* | y\*)
-linksection\[$i]=$item
-i=$i+1
-echoerr green "Qonfigured!"
-break
-;;
-N\* | n\*)
-echoerr darkgreen "Not added to Qonfig."
-break
-;;
-*)
-echoerr red "Answer not understood: ${answer}"
-;;
-esac
-done
-fi
+for item in ${paths[*]}; do
+	fullname="${item/\~/$HOME}"
+	if [ -h $fullname ]; then
+		continue
+	fi
+	if [ -f $fullname ] || [ -d $fullname ]; then
+		while true; do
+			read -p "I found ${item}, do you want to Qonfig it? (Y/n) " answer
+			if [ -z "$answer" ]; then
+				answer='y'
+			fi
+			case "$answer" in
+			Y* | y*)
+				linksection[$i]=$item
+				i=$i+1
+				echoerr green "Qonfigured!"
+				break
+				;;
+			N* | n*)
+				echoerr darkgreen "Not added to Qonfig."
+				break
+				;;
+			*)
+				echoerr red "Answer not understood: ${answer}"
+				;;
+			esac
+		done
+	fi
 done
 dotlink='- link:'
 newline='\n'
 hspace='\x20\x20\x20\x20'
-for item in ${linksection\[*]}; do
-fullname="${item/~/$HOME}"
-firstdot=$(echo "$item" | sed -n "s/\[.].*//p" | wc -c)
-firstslash=$(echo "$item" | sed -n "s/\[/].*//p" | wc -c)
-if \[ -d $fullname ]; then
-itempath=$item'/'
-else
-itempath=$item
-fi
-if \[\[ $firstdot -gt $firstslash ]]; then
-itempath=${itempath:$firstdot}
-else
-itempath=${itempath:$firstslash}
-fi
-nextslash=$(echo "$itempath" | sed -n "s/\[/].*//p" | wc -c)
-if \[\[ $nextslash -gt 0 ]]; then
-entryisdir='true'
-else
-entryisdir='false'
-fi
-if (($verboseconf)); then
-new\_entry=$newline$hspace$item':'
-new\_entry=$new\_entry$newline$hspace$hspace'path: '$itempath
-new\_entry=$new\_entry$newline$hspace$hspace'create: '$entryisdir
-new\_entry=$new\_entry$newline$hspace$hspace'relink: false'
-new\_entry=$new\_entry$newline$hspace$hspace'force: false'
-elif \[\[ $entryisdir = 'false' ]]; then
-new\_entry=$newline$hspace$item': '$itempath
-else
-new\_entry=$newline$hspace$item':'
-new\_entry=$new\_entry$newline$hspace$hspace'path: '$itempath
-new\_entry=$new\_entry$newline$hspace$hspace'create: '$entryisdir
-fi
-appendshell ensureparentdirs $itempath
-appendshell mv $item $itempath
-dotlink="$dotlink$new\_entry"
+for item in ${linksection[*]}; do
+	fullname="${item/\~/$HOME}"
+	firstdot=$(echo "$item" | sed -n "s/[.].*//p" | wc -c)
+	firstslash=$(echo "$item" | sed -n "s/[/].*//p" | wc -c)
+	if [ -d $fullname ]; then
+		itempath=$item'/'
+	else
+		itempath=$item
+	fi
+	if [[ $firstdot -gt $firstslash ]]; then
+		itempath=${itempath:$firstdot}
+	else
+		itempath=${itempath:$firstslash}
+	fi
+	nextslash=$(echo "$itempath" | sed -n "s/[/].*//p" | wc -c)
+	if [[ $nextslash -gt 0 ]]; then
+		entryisdir='true'
+	else
+		entryisdir='false'
+	fi
+	if (("$verboseconf")); then
+		new_entry=$newline$hspace$item':'
+		new_entry=$new_entry$newline$hspace$hspace'path: '$itempath
+		new_entry=$new_entry$newline$hspace$hspace'create: '$entryisdir
+		new_entry=$new_entry$newline$hspace$hspace'relink: false'
+		new_entry=$new_entry$newline$hspace$hspace'force: false'
+	elif [[ $entryisdir = 'false' ]]; then
+		new_entry=$newline$hspace$item': '$itempath
+	else
+		new_entry=$newline$hspace$item':'
+		new_entry=$new_entry$newline$hspace$hspace'path: '$itempath
+		new_entry=$new_entry$newline$hspace$hspace'create: '$entryisdir
+	fi
+	appendshell ensureparentdirs $itempath
+	appendshell mv $item $itempath
+	dotlink="$dotlink$new_entry"
 done
-export installconfyaml="$dotclean$newline$newline$dotlink$newline$newline$dotshell"
+export qonfigyaml="$dotclean$newline$newline$dotlink$newline$newline$dotshell"
 appendshell echoconfig "$qonfigyaml" 'qonfig.yaml'
 getgitinfo=0
 gitinfoglobal=0
-if (($installerrun)); then
-$(git config user.name >&/dev/null && git config user.email >&/dev/null)
-if \[ $? -ne 0 ]; then
-echoerr darkred "Please note you do not have a name or email set for git."
-echoerr darkred "I shall not be able to commit unless you set the missing variables."
-while \[ 1 ]; do
-read -p "Do you want to set them? (Y/n) " answer
-if \[ -z "$answer" ]; then
-answer='y'
+if (("$installerrun")); then
+	$(git config user.name >&/dev/null && git config user.email >&/dev/null)
+	if [ $? -ne 0 ]; then
+		echoerr darkred "Please note you do not have a name or email set for git."
+		echoerr darkred "I shall not be able to commit unless you set the missing variables."
+		while [ 1 ]; do
+			read -p "Do you want to set them? (Y/n) " answer
+			if [ -z "$answer" ]; then
+				answer='y'
+			fi
+			case "$answer" in
+			Y* | y*)
+				getgitinfo=1
+				break
+				;;
+			N* | n*)
+				echoerr darkgreen "Okay, I shall not."
+				getgitinfo=0
+				installerrun=0
+				break
+				;;
+			*)
+				echoerr red "Answer not understood: ${answer}"
+				;;
+			esac
+		done
+		while [ 1 ]; do
+			read -p "Do you want these settings to be global? (Y/n) " answer
+			if [ -z "$answer" ]; then
+				answer='y'
+			fi
+			case "$answer" in
+			Y* | y*)
+				echoerr green "Adding --global to the set commands."
+				gitinfoglobal=1
+				break
+				;;
+			N* | n*)
+				echoerr green "Okay, I shall make them local."
+				gitinfoglobal=0
+				break
+				;;
+			*)
+				echoerr red "Answer not understood: ${answer}"
+				;;
+			esac
+		done
+	fi
 fi
-case "$answer" in
-Y* | y\*)
-getgitinfo=1
-break
-;;
-N\* | n\*)
-echoerr darkgreen "Okay, I shall not."
-getgitinfo=0
-installerrun=0
-break
-;;
-*)
-echoerr red "Answer not understood: ${answer}"
-;;
-esac
-done
-while \[ 1 ]; do
-read -p "Do you want these settings to be global? (Y/n) " answer
-if \[ -z "$answer" ]; then
-answer='y'
-fi
-case "$answer" in
-Y* | y\*)
-echoerr green "Adding --global to the set commands."
-gitinfoglobal=1
-break
-;;
-N\* | n\*)
-echoerr green "Okay, I shall make them local."
-gitinfoglobal=0
-break
-;;
-*)
-echoerr red "Answer not understood: ${answer}"
-;;
-esac
-done
-fi
-fi
-if (($getgitinfo)); then
-$(git config user.name >&/dev/null)
-if \[ $? -ne 0 ]; then
-gitname="Donald Knuth"
-else
-gitname="$(git config user.name)"
-fi
-$(git config user.email >&/dev/null)
-if \[ $? -ne 0 ]; then
-gitemail="Don.Knuth@example.com"
-else
-gitemail="$(git config user.email)"
-fi
-read -p "What do you want for your git name? \[${gitname}]" answer
-if \[ -z "$answer" ]; then
-answer="$gitname"
-fi
-gitname="$answer"
-read -p "What do you want for your git email? \[${gitemail}]" answer
-if \[ -z "$answer" ]; then
-answer="$gitemail"
-fi
-gitemail="$answer"
-appendshell gitsetname "$gitname" $gitinfoglobal
-appendshell gitsetemail "$gitemail" $gitinfoglobal
+if (("$getgitinfo")); then
+	$(git config user.name >&/dev/null)
+	if [ $? -ne 0 ]; then
+		gitname="FirstName LastName"
+	else
+		gitname="$(git config user.name)"
+	fi
+	$(git config user.email >&/dev/null)
+	if [ $? -ne 0 ]; then
+		gitemail="FirstName.LastName@example.com"
+	else
+		gitemail="$(git config user.email)"
+	fi
+	read -p "What do you want for your git name? [${gitname}]" answer
+	if [ -z "$answer" ]; then
+		answer="$gitname"
+	fi
+	gitname="$answer"
+	read -p "What do you want for your git email? [${gitemail}]" answer
+	if [ -z "$answer" ]; then
+		answer="$gitemail"
+	fi
+	gitemail="$answer"
+	appendshell gitsetname "$gitname" $gitinfoglobal
+	appendshell gitsetemail "$gitemail" $gitinfoglobal
 fi
 while (($installerrun)); do
-read -p "Shall I run the installer? (Necessary to git commit) (Y/n) " answer
-if \[ -z "$answer" ]; then
-answer='y'
-fi
-case "$answer" in
-Y* | y\*)
-echoerr green "Will do."
-appendshell runinstaller
-break
-;;
-N\* | n\*)
-echoerr darkgreen "Okay, I shall not. You will need to take care of that yourself."
-installerrun=0
-break
-;;
-*)
-echoerr red "Answer not understood: ${answer}"
-;;
-esac
+	read -p "Shall I run the installer? (Necessary to git commit) (Y/n) " answer
+	if [ -z "$answer" ]; then
+		answer='y'
+	fi
+	case "$answer" in
+	Y* | y*)
+		echoerr green "Will do."
+		appendshell runinstaller
+		break
+		;;
+	N* | n*)
+		echoerr darkgreen "Okay, I shall not. You will need to take care of that yourself."
+		installerrun=0
+		break
+		;;
+	*)
+		echoerr red "Answer not understood: ${answer}"
+		;;
+	esac
 done
 while (($installerrun)); do
-read -p "Shall I make the initial commit? (Y/n) " answer
-if \[ -z "$answer" ]; then
-answer='y'
-fi
-case "$answer" in
-Y* | y\*)
-echoerr green "Will do."
-appendshell gitinitialcommit
-break
-;;
-N\* | n\*)
-echoerr darkgreen "Okay, I shall not. You will need to take care of that yourself."
-break
-;;
-\*)
-echoerr red "Answer not understood: ${answer}"
-;;
-esac
+	read -p "Shall I make the initial commit? (Y/n) " answer
+	if [ -z "$answer" ]; then
+		answer='y'
+	fi
+	case "$answer" in
+	Y* | y*)
+		echoerr green "Will do."
+		appendshell gitinitialcommit
+		break
+		;;
+	N* | n*)
+		echoerr darkgreen "Okay, I shall not. You will need to take care of that yourself."
+		break
+		;;
+	*)
+		echoerr red "Answer not understood: ${answer}"
+		;;
+	esac
 done
 echoerr
 if (($dumpconf)); then
-echo -e "$dotlink"
-echoerr
+	echo -e "$dotlink"
+	echoerr
 fi
 echoerr magenta "The below are the actions that will be taken to setup Qonfig."
 if (($testmode)); then
-echoerr darkmagenta "Just kidding. They won't be."
+	echoerr darkmagenta "Just kidding. They won't be."
 fi
-
 if (($preview)); then
-printferr "\n${setupshell//; /;\n}\n\n" # place newline after each command for printing
-warningmessage='If you do not see a problem with the above commands, press enter. '
+	printferr "\n${setupshell//; /;\\n}\n\n" # place newline after each command for printing
+	warningmessage='If you do not see a problem with the above commands, press enter. '
 else
-warningmessage=''
+	warningmessage=''
 fi
 echoerrcolor darkred
 read -p "${warningmessage}This is your last chance to press ^C before actions are taken that should not be interrupted. "
 echoerrnocolor
 if ! (($testmode)); then
-eval $setupshell
+	eval $setupshell
 fi
 function info() {
-printf "\033\[1;32m\[info]\033\[0m %s\n" "$*"
+	printf "\033[1;32m[info]\033[0m %s\n" "$*"
 }
 function error() {
-printf "\033\[1;31m\[error]\033\[0m %s\n" "$*" >&2
-exit 1
+	printf "\033[1;31m[error]\033[0m %s\n" "$*" >&2
+	exit 1
 }
-function check\_dependencies() {
-command -v python3 >/dev/null || error "python3 is required"
+function check_dependencies() {
+	command -v python3 >/dev/null || error "python3 is required"
 }
-function find\_repo\_root() {
-git rev-parse --show-toplevel 2>/dev/null || pwd
+function find_repo_root() {
+	git rev-parse --show-toplevel 2>/dev/null || pwd
 }
-function install\_qonfig() {
-REPO\_ROOT=$(find\_repo\_root)
-QONFIG\_SRC="${REPO\_ROOT}/${QONFIG\_SCRIPT}"
-\[\[ -f "${QONFIG\_SRC}" ]] || error "Missing Qonfig at ${QONFIG\_SRC}"
-mkdir -p "${INSTALL\_DIR}"
-local target="${INSTALL\_DIR}/${SCRIPT\_NAME}"
-if $USE\_SYMLINK; then
-ln -sf "${QONFIG\_SRC}" "${target}"
-info "Symlinked qonfig → ${target}"
-else
-cp "${QONFIG\_SRC}" "${target}"
-chmod +x "${target}"
-info "Copied Qonfig to ${target}"
-fi
-info "Qonfig installed to ${target}"
+function install_qonfig() {
+	REPO_ROOT=$(find_repo_root)
+	QONFIG_SRC="${REPO_ROOT}/${QONFIG_SCRIPT}"
+	[[ -f "${QONFIG_SRC}" ]] || error "Missing Qonfig at ${QONFIG_SRC}"
+	mkdir -p "${INSTALL_DIR}"
+	local target="${INSTALL_DIR}/${SCRIPT_NAME}"
+	if $USE_SYMLINK; then
+		ln -sf "${QONFIG_SRC}" "${target}"
+		info "Symlinked qonfig → ${target}"
+	else
+		cp "${QONFIG_SRC}" "${target}"
+		chmod +x "${target}"
+		info "Copied Qonfig to ${target}"
+	fi
+	info "Qonfig installed to ${target}"
 }
 function main() {
-check\_dependencies
-install\_qonfig
+	check_dependencies
+	install_qonfig
 }
 main "$@" </pre> </details> <p>Or, <a href="https://github.com/qompassai/qonfig/blob/main/scripts/quickstart.sh" target="_blank">View
 the quickstart script</a>.</p>
@@ -588,6 +579,13 @@ the quickstart script</a>.</p>
 
   </blockquote>
   </details>
+
+<details>
+    <summary
+      style="font-size: 1.4em; font-weight: bold; padding: 15px; background: #667eea; color: white; border-radius: 10px; cursor: pointer; margin: 10px 0;">
+      <strong>📖 [Read the Qonfig documentation](qonfig/docs/README.md)</strong>
+    </summary>
+</details>
 
   <details>
     <summary

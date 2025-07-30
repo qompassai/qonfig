@@ -1,3 +1,3 @@
 *.pyc
-/.backups/
+/.forge/
 /__pycache/

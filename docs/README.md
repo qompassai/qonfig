@@ -1,9 +1,6 @@
 <!-- qompassai/qonfig/docs/README.md -->
-
 <!-- Qompass AI Qonfig Docs -->
-
 <!-- Copyright (C) 2025 Qompass AI, All rights reserved -->
-
 <!--------------------------------------------------------> 
 
 <details>
@@ -28,7 +25,7 @@ touch qonfig.yaml
       style="font-size: 1.4em; font-weight: bold; padding: 15px; background: #667eea; color: white; border-radius: 10px; cursor: pointer; margin: 10px 0;">
       <strong>🧭 Qonfig With Mercurial</strong>
     </summary>
-    <blockquote
+    <blockquote>
 
 ```bash
 cd ~/.dotfiles # replace with the path to your dotfiles
@@ -57,16 +54,18 @@ update --remote qonfig`, substituting `qonfig` with the path to the Qonfig
 submodule. If using a subrepo, run `git fetch && git checkout origin/master` in
 the Qonfig directory.
 
+</details>
+</blockquote>
+
   <details>
     <summary
       style="font-size: 1.4em; font-weight: bold; padding: 15px; background: #ff6b6b; color: white; border-radius: 10px; cursor: pointer; margin: 10px 0;">
-      <strong>🔥 Example Config</strong>
+      <strong>🔥 Example Minimal Configs</strong>
     </summary>
-    <blockquote
+    <blockquote>
       style="font-size: 1.2em; line-height: 1.8; padding: 25px; background: #fff5f5; border-left: 6px solid #ff6b6b; border-radius: 8px; margin: 15px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
 
 ```YAML
-#
 - defaults:
     link:
       relink: true
@@ -112,3 +111,5 @@ the Qonfig directory.
     }
 ]
 ```
+</blockquote>
+ </details>
