@@ -3,6 +3,23 @@
 <!-- Copyright (C) 2025 Qompass AI, All rights reserved -->
 <!--------------------------------------------------------> 
 
+<h2> Qompass AI Qonfig Documentation</h2>
+
+To get started, you just need to fill in the `qonfig.yaml` and Qonfig
+will take care of the rest. 
+
+Note: The `install` script is merely a shim that checks out the appropriate
+version of Qonfig and calls the full Qonfig installer. By default, the script
+assumes that the configuration is located in `qonfig.yaml` the Qonfig
+submodule is located in `qonfig`. You can change either of these parameters by
+editing the variables in the `install` script appropriately.
+
+Setting up Qonfig as a submodule or subrepo locks it on the current version.
+You can upgrade Qonfig at any point. If using a submodule, run `git submodule
+update --remote qonfig`, substituting `qonfig` with the path to the Qonfig
+submodule. If using a subrepo, run `git fetch && git checkout origin/master` in
+the Qonfig directory.
+
 <details>
     <summary
       style="font-size: 1.4em; font-weight: bold; padding: 15px; background: #667eea; color: white; border-radius: 10px; cursor: pointer; margin: 10px 0;">
@@ -18,8 +35,9 @@ git submodule add https://github.com/qompassai/qonfig
 cp qonfig/tools/git-submodule/install .
 touch qonfig.yaml
 ```
-
+</details>
 </blockquote>
+
 <details>
     <summary
       style="font-size: 1.4em; font-weight: bold; padding: 15px; background: #667eea; color: white; border-radius: 10px; cursor: pointer; margin: 10px 0;">
@@ -36,23 +54,6 @@ git clone https://github.com/qompassai/qonfig
 cp qonfig/tools/hg-subrepo/install .
 touch qonfig.yaml
 ```
-
-To get started, you just need to fill in the `qonfig.yaml` and Qonfig
-will take care of the rest. To help you get started we have [an
-example](#full-example) config file as well as [configuration
-documentation](#configuration) for the accepted parameters.
-
-Note: The `install` script is merely a shim that checks out the appropriate
-version of Qonfig and calls the full Qonfig installer. By default, the script
-assumes that the configuration is located in `qonfig.yaml` the Qonfig
-submodule is located in `qonfig`. You can change either of these parameters by
-editing the variables in the `install` script appropriately.
-
-Setting up Qonfig as a submodule or subrepo locks it on the current version.
-You can upgrade Qonfig at any point. If using a submodule, run `git submodule
-update --remote qonfig`, substituting `qonfig` with the path to the Qonfig
-submodule. If using a subrepo, run `git fetch && git checkout origin/master` in
-the Qonfig directory.
 
 </details>
 </blockquote>

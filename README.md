@@ -586,7 +586,7 @@ the quickstart script</a>.</p>
     <strong>📖 Read the Qonfig documentation</strong>
   </summary>
   <a href="qonfig/docs/README.md" style="font-size:1.2em; font-weight:bold; background: #a0b4f7; color: #222; padding: 7px 22px; border-radius: 5px; display: inline-block; margin: 18px 0; text-decoration: none;">
-    👉 Qonfig docs
+    [Read the Qonfig documentation](qonfig/docs/README.md)
   </a>
 </details>
 
