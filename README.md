@@ -5,7 +5,7 @@
 
 <h2> Qompass AI Qonfig </h3>
 
-  <h3> Qompass AI Qonfig: A Quality Dotfile Manager </h3>
+  <h3> A Quality Dotfile Manager </h3>
 
 ![Repository Views](https://komarev.com/ghpvc/?username=qompassai-qonfig)
 ![GitHub all releases](https://img.shields.io/github/downloads/qompassai/qonfig/total?style=flat-square)
