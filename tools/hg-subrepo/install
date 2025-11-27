@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Qompass AI Qonfig Mercurial Subrepo Install
+# Copyright (C) 2025 Qompass AI, All rights reserved
+####################################################
+set -e
+USER_CONFIG="qonfig.yaml"
+QONFIG_DIR="qonfig"
+QONFIG_BIN="bin/qonfig"
+BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "${BASEDIR}"
+(cd "${QONFIG_DIR}" && git submodule update --init --recursive)
+"${BASEDIR}/${QONFIG_DIR}/${QONFIG_BIN}" -d "${BASEDIR}" -c "${USER_CONFIG}" "${@}"

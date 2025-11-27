@@ -1,0 +1,8 @@
+# /qompass/dotbot/.gitmodules
+# Qompass AI Dotbot Git Module
+# Copyright (C) 2025 Qompass AI, All rights reserved
+####################################################
+[submodule "lib/pyyaml"]
+	path = lib/pyyaml
+	url = https://github.com/anishathalye/pyyaml
+	ignore = dirty
